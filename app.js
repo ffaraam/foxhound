@@ -53,7 +53,7 @@
     fields.push([notes, notes.value.length > 2000 ? "La nota puede tener hasta 2000 caracteres." : ""]);
     fields.forEach(([field, message]) => showFieldError(field, message));
     const invalid = fields.find(([, message]) => message);
-    if (invalid) { invalid[0].focus(); return; }
+    if (invalid) { (invalid[0] === sentDate && sentDate.hidden ? document.querySelector("#date-trigger") : invalid[0]).focus(); return; }
 
     saving = true;
     submit.disabled = true;

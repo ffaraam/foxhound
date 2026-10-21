@@ -12,6 +12,7 @@
     <link rel="icon" type="image/png" href="assets/foxhound-logo.png">
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
+    <script src="calendar.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -52,8 +53,18 @@
               <p class="field-error" id="role-error" hidden></p>
             </div>
             <div class="field date-field">
-              <label for="sent-date">Fecha de envío</label>
+              <label for="sent-date" id="date-label">Fecha de envío</label>
               <input id="sent-date" name="sentDate" type="date" required aria-describedby="date-help sent-date-error">
+              <button id="date-trigger" class="date-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="date-calendar" aria-labelledby="date-label date-value" aria-describedby="date-help sent-date-error" hidden>
+                <span id="date-value"></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3v4m8-4v4M4 10h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </button>
+              <dialog id="date-calendar" class="date-calendar" aria-labelledby="calendar-title">
+                <div class="calendar-heading"><h2 id="calendar-title">Fecha de envío</h2><button type="button" id="calendar-close" class="calendar-control" aria-label="Cerrar calendario">×</button></div>
+                <div class="calendar-month"><button type="button" id="calendar-prev" class="calendar-control" aria-label="Mes anterior">‹</button><p id="calendar-month-label" aria-live="polite"></p><button type="button" id="calendar-next" class="calendar-control" aria-label="Mes siguiente">›</button></div>
+                <div class="calendar-weekdays" aria-hidden="true"><span>Lu</span><span>Ma</span><span>Mi</span><span>Ju</span><span>Vi</span><span>Sá</span><span>Do</span></div>
+                <div id="calendar-days" class="calendar-days" role="group" aria-label="Días del mes"></div>
+                <div class="calendar-footer"><span>Hasta hoy, inclusive</span><button type="button" id="calendar-today">Elegir hoy</button></div>
+              </dialog>
               <p class="field-help" id="date-help">El día en que enviaste tu CV.</p>
               <p class="field-error" id="sent-date-error" hidden></p>
             </div>

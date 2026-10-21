@@ -1,31 +1,72 @@
 # Foxhound
 
-Rastreador personal de postulaciones laborales, hecho con HTML, CSS y JavaScript puro.
+Rastreador personal de postulaciones laborales desarrollado con **HTML, CSS y JavaScript puro**, sin frameworks ni backend. Permite organizar los envíos de CV, seguir sus estados y guardar los detalles de cada oportunidad.
 
-## Abrir la aplicación
+## Funcionalidades
 
-Desde esta carpeta, ejecutá `python3 -m http.server 8000` y abrí http://localhost:8000.
+- **Nueva postulación:** empresa, rol, fecha de envío y nota opcional. Los campos principales son obligatorios y se rechazan fechas futuras.
+- **Calendario personalizado:** meses en español, navegación entre meses, acceso a hoy y selección con teclado. Flechas para moverse, PageUp/PageDown para cambiar de mes, Enter/Espacio para seleccionar y Escape para cerrar. Si el navegador no admite diálogos modales, conserva el selector nativo.
+- **Mis postulaciones:** historial ordenado por fecha de envío, con empresa, rol, fecha, estado y nota. Incluye un mensaje cuando no hay registros.
+- **Estados:** Enviado, En proceso, Rechazado y Oferta. Los cambios se guardan automáticamente y se confirman en la fila.
+- **Notas editables:** hasta 2000 caracteres, con saltos de línea. Se pueden agregar o editar desde el historial, guardar o cancelar. Guardar una nota vacía la elimina. Si el guardado falla, el borrador permanece disponible.
+- **Resumen:** total de postulaciones, empresas contactadas y envíos de los últimos 30 días; distribución por estado, actividad de las últimas seis semanas y las tres postulaciones más recientes.
+- **Diseño responsive:** navegación y formularios adaptados a escritorio, tablet y celular.
 
-## Primera funcionalidad
+El indicador **«en movimiento»** representa las postulaciones en Enviado o En proceso sobre el total. Las semanas del gráfico comienzan el lunes y la última está en curso. Las empresas se cuentan sin distinguir mayúsculas ni espacios exteriores.
 
-El formulario permite guardar empresa, rol y fecha de envío. Los campos son obligatorios y la fecha no puede estar en el futuro. Cada postulación comienza en estado `enviado`.
+## Ejecutar localmente
 
-Los registros se guardan en `localStorage`, bajo la clave `foxhound.applications`, y se conservan entre visitas al mismo origen y navegador. No hay servidor ni sincronización entre dispositivos. Borrar los datos del navegador elimina los registros. Si los datos existentes no se pueden leer, la aplicación evita sobrescribirlos.
+Solo necesitás un navegador moderno y un servidor de archivos estáticos. Una opción es Python 3:
 
-## Historial de postulaciones
+```sh
+git clone https://github.com/ffaraam/foxhound.git
+cd foxhound
+python3 -m http.server 8000 --bind 127.0.0.1
+```
 
-En `postulaciones.html`, la sección **Mis postulaciones** lista todos los registros de `foxhound.applications`, ordenados por fecha de envío descendente (y fecha de creación para desempatar). Muestra empresa, rol, fecha y estado. La navegación está disponible en escritorio y celular. Incluye un estado vacío y otro de error, con reintento y sin modificar los datos almacenados.
+Abrí [http://127.0.0.1:8000](http://127.0.0.1:8000). No hace falta instalar paquetes ni compilar la aplicación.
 
-## Cambiar el estado
+## Guardado de datos
 
-Desde **Mis postulaciones**, cada registro tiene un selector con Enviado, En proceso, Rechazado y Oferta. El cambio se guarda automáticamente y muestra una confirmación en la fila. Si falla el guardado, vuelve al estado anterior e informa el error. Cada cambio identifica el registro por su ID y lee los datos actuales antes de escribir para conservar los demás campos y registros.
+Los registros se guardan en `localStorage`, bajo la clave `foxhound.applications`. Las postulaciones, sus estados y sus notas se conservan al recargar. Los cambios entre pestañas del mismo origen actualizan las vistas; una nota abierta en edición mantiene su borrador.
 
-## Nota por postulación
+Los datos pertenecen al **mismo navegador y origen**: `localhost:8000` y `127.0.0.1:8000` son orígenes distintos, al igual que puertos diferentes. No hay cuentas, backend ni sincronización entre dispositivos. Borrar los datos del navegador elimina los registros. Los datos guardados no se incluyen en el repositorio.
 
-El formulario permite agregar una nota opcional de hasta 2000 caracteres. Se guarda en el campo `notes` del registro y aparece debajo de los datos de cada postulación en el historial, conservando los saltos de línea. Las postulaciones antiguas sin nota muestran «Sin nota». El contenido se muestra como texto, sin interpretar HTML, y se conserva al cambiar el estado. Si falla el guardado, el formulario conserva también la nota.
+Los errores de lectura ofrecen reintento sin sobrescribir los registros. Los cambios de estado y notas identifican cada postulación por su ID y conservan sus demás campos. Las notas se muestran como texto, sin interpretar HTML.
 
-## Resumen
+## Identidad visual
 
-La sección **Resumen** (`resumen.html`) combina total de postulaciones, empresas contactadas (sin distinguir mayúsculas y espacios exteriores) y envíos de los últimos 30 días incluido hoy. Un gráfico circular muestra la distribución por estado y el porcentaje «en movimiento» (Enviado + En proceso sobre el total). El gráfico de actividad agrupa los envíos de las últimas seis semanas por lunes, con la última semana en curso; excluye fechas futuras e inválidas. El panel de últimos pasos muestra las tres postulaciones más recientes.
+| Color | Hexadecimal | Uso |
+| --- | --- | --- |
+| Blanco hueso | `#F3F0E8` | Fondo principal |
+| Marrón Foxhound | `#8E643E` | Marca y acciones |
+| Verde pradera | `#A2C65A` | Ofertas y acentos de datos |
 
-Los gráficos se dibujan en SVG con JavaScript puro. Las cifras se calculan desde los registros, muestran ceros reales y se actualizan al volver a la página o cambiar datos en otra pestaña. Los estados desconocidos se incluyen en la distribución y se informan para corregirlos. Los errores de lectura ofrecen reintento sin sobrescribir los datos.
+El logo representa un foxhound americano. La interfaz usa **Instrument Sans**, cargada desde Google Fonts, con una fuente del sistema como alternativa si no hay conexión. Los gráficos del dashboard están dibujados en SVG con JavaScript.
+
+## Archivos principales
+
+| Archivo | Responsabilidad |
+| --- | --- |
+| `index.html` / `app.js` | Formulario, validación y creación de postulaciones |
+| `calendar.js` | Calendario personalizado y navegación con teclado |
+| `postulaciones.html` / `postulaciones.js` | Historial, cambios de estado y edición de notas |
+| `resumen.html` / `resumen.js` | Métricas, gráficos y postulaciones recientes |
+| `styles.css` | Identidad visual y diseño responsive |
+| `assets/` | Logo y recursos de marca |
+| `tests/` | Pruebas de aceptación y calendario |
+
+## Pruebas
+
+Las pruebas automatizadas requieren **Node.js 22 o superior, Chrome/Chromium y el cliente CDP de Taste Skill**; estos requisitos corresponden a las pruebas, no a la aplicación. Consultá [tests/README.md](tests/README.md) para configurar el cliente.
+
+Con el servidor local iniciado, ejecutá desde la raíz:
+
+```sh
+node tests/acceptance.mjs
+node tests/calendar.mjs
+```
+
+La suite de aceptación cubre los **10 criterios de HU1 a HU5 y generales**: formulario, guardado, historial, estado vacío, selector de estado, actualización inmediata, notas editables, resumen, persistencia y demo sin errores. También verifica campos vacíos y fechas futuras. La prueba de calendario incluye teclado, años bisiestos y adaptación a móvil.
+
+Las pruebas usan un perfil temporal aislado y no modifican las postulaciones de tu navegador habitual. El reporte, los resultados JSON y las capturas de aceptación se generan en `test-results/acceptance/`, carpeta excluida de Git. La suite fue verificada en Chrome; no se afirma compatibilidad probada con otros navegadores.

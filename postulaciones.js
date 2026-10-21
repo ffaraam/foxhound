@@ -24,6 +24,8 @@
     return node;
   }
 
+  let noteSequence = 0;
+
   function row(application) {
     const item = document.createElement("li");
     const article = element("article", "application-row");
@@ -88,8 +90,90 @@
     status.append(element("span", "mobile-label", "Estado"), select, feedback);
     article.append(role, date, status);
     const note = element("div", "application-note");
-    const noteText = typeof application.notes === "string" ? application.notes.trim() : "";
-    note.append(element("span", "note-label", "Nota"), element("p", noteText ? "note-content" : "note-content note-empty", noteText || "Sin nota"));
+    let savedNote = typeof application.notes === "string" ? application.notes.trim() : "";
+    const noteHeader = element("div", "note-header");
+    const edit = element("button", "note-edit-button", savedNote ? "Editar nota" : "Agregar nota");
+    edit.type = "button";
+    edit.setAttribute("aria-expanded", "false");
+    edit.setAttribute("aria-label", `Editar nota de ${application.role} en ${application.company}`);
+    const text = element("p", savedNote ? "note-content" : "note-content note-empty", savedNote || "Sin nota");
+    const editor = element("form", "note-editor");
+    editor.hidden = true;
+    editor.noValidate = true;
+    const id = `note-editor-${++noteSequence}`;
+    editor.id = `${id}-form`;
+    edit.setAttribute("aria-controls", editor.id);
+    const label = element("label", "", "Nota");
+    label.htmlFor = id;
+    const input = document.createElement("textarea");
+    input.id = id;
+    input.name = "notes";
+    input.rows = 4;
+    input.maxLength = 2000;
+    input.setAttribute("aria-describedby", `${id}-help ${id}-feedback`);
+    const help = element("p", "field-help", "Hasta 2000 caracteres. Podés dejarla vacía para quitar la nota.");
+    help.id = `${id}-help`;
+    const message = element("p", "note-feedback");
+    message.id = `${id}-feedback`;
+    message.setAttribute("role", "status");
+    message.setAttribute("aria-live", "polite");
+    const actions = element("div", "note-actions");
+    const save = element("button", "", "Guardar nota");
+    save.type = "submit";
+    const cancel = element("button", "secondary-button", "Cancelar");
+    cancel.type = "button";
+    actions.append(save, cancel);
+    editor.append(label, input, help, actions);
+    function closeEditor() {
+      editor.hidden = true;
+      text.hidden = false;
+      edit.hidden = false;
+      edit.setAttribute("aria-expanded", "false");
+      edit.focus();
+    }
+    edit.addEventListener("click", () => {
+      input.value = savedNote;
+      input.removeAttribute("aria-invalid");
+      message.textContent = "";
+      message.classList.remove("note-feedback-error");
+      editor.hidden = false;
+      text.hidden = true;
+      edit.setAttribute("aria-expanded", "true");
+      input.focus();
+    });
+    cancel.addEventListener("click", () => { message.textContent = ""; closeEditor(); });
+    input.addEventListener("input", () => { input.removeAttribute("aria-invalid"); message.textContent = ""; });
+    editor.addEventListener("submit", event => {
+      event.preventDefault();
+      message.textContent = "";
+      message.classList.remove("note-feedback-error");
+      if (input.value.length > 2000) {
+        input.setAttribute("aria-invalid", "true");
+        message.classList.add("note-feedback-error");
+        message.textContent = "La nota puede tener hasta 2000 caracteres.";
+        input.focus();
+        return;
+      }
+      try {
+        const applications = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        if (!Array.isArray(applications) || typeof application.id !== "string" || !application.id || applications.filter(item => item?.id === application.id).length !== 1) throw new Error("Application unavailable");
+        const index = applications.findIndex(item => item?.id === application.id);
+        const nextNote = input.value.trim();
+        applications[index] = { ...applications[index], notes: nextNote, updatedAt: new Date().toISOString() };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(applications));
+        savedNote = nextNote;
+        text.textContent = savedNote || "Sin nota";
+        text.classList.toggle("note-empty", !savedNote);
+        edit.textContent = savedNote ? "Editar nota" : "Agregar nota";
+        closeEditor();
+        message.textContent = "Nota guardada.";
+      } catch {
+        message.classList.add("note-feedback-error");
+        message.textContent = "No pudimos guardar la nota. Tu edición sigue acá: volvé a intentar. Si el registro cambió en otra pestaña, copiá tu nota antes de recargar.";
+      }
+    });
+    noteHeader.append(element("span", "note-label", "Nota"), edit);
+    note.append(noteHeader, text, editor, message);
     article.append(note);
     item.append(article);
     return item;
@@ -127,7 +211,7 @@
   document.querySelector("#retry-history").addEventListener("click", render);
   window.addEventListener("pageshow", render);
   window.addEventListener("storage", event => {
-    if (event.key === STORAGE_KEY || event.key === null) render();
+    if ((event.key === STORAGE_KEY || event.key === null) && !list.querySelector(".note-editor:not([hidden])")) render();
   });
   render();
 })();
