@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#F3F0E8">
+    <meta name="description" content="Foxhound, tu espacio para seguir cada postulación laboral.">
+    <title>Nueva postulación · Foxhound</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/foxhound-logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Ir al contenido</a>
+    <aside class="sidebar" aria-label="Foxhound">
+      <a class="brand" href="./" aria-label="Foxhound, inicio">
+        <span class="brand-mark" role="img" aria-label="Foxhound americano de perfil"></span>
+        <span>foxhound<span class="brand-dot">.</span></span>
+      </a>
+      <p class="workspace">Mi búsqueda laboral</p>
+      <nav aria-label="Navegación principal">
+        <a class="nav-link" href="./" aria-current="page"><span aria-hidden="true">+</span> Nueva postulación</a>
+        <a class="nav-link" href="postulaciones.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Mis postulaciones</a>
+        <a class="nav-link" href="resumen.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V10h4v10M10 20V4h4v16M16 20v-7h4v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg> Resumen</a>
+      </nav>
+      <p class="sidebar-footer">Un lugar para seguir<br>tu próximo paso.</p>
+    </aside>
+
+    <main id="contenido">
+      <header class="page-header">
+        <h1>Nueva postulación</h1>
+        <p>Cada envío es un paso. Dejá el registro acá.</p>
+      </header>
+      <div class="content-grid">
+        <section class="form-panel" aria-labelledby="form-title">
+          <div class="panel-header">
+            <h2 id="form-title">Datos de la postulación</h2>
+            <p>Completá los datos del envío. La nota es opcional.</p>
+          </div>
+          <form id="application-form" novalidate>
+            <div class="field">
+              <label for="company">Empresa</label>
+              <input id="company" name="company" type="text" placeholder="Ej.: Mercado Libre" maxlength="120" required aria-describedby="company-error">
+              <p class="field-error" id="company-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="role">Rol o puesto</label>
+              <input id="role" name="role" type="text" placeholder="Ej.: Desarrollador frontend junior" maxlength="160" required aria-describedby="role-error">
+              <p class="field-error" id="role-error" hidden></p>
+            </div>
+            <div class="field date-field">
+              <label for="sent-date">Fecha de envío</label>
+              <input id="sent-date" name="sentDate" type="date" required aria-describedby="date-help sent-date-error">
+              <p class="field-help" id="date-help">El día en que enviaste tu CV.</p>
+              <p class="field-error" id="sent-date-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="notes">Nota <span class="optional-label">(opcional)</span></label>
+              <textarea id="notes" name="notes" rows="4" maxlength="2000" placeholder="Ej.: Envié mi portfolio. El contacto es Ana de Recursos Humanos." aria-describedby="notes-help notes-error"></textarea>
+              <p class="field-help" id="notes-help">Un contacto, un detalle del puesto o algo para recordar. Hasta 2000 caracteres.</p>
+              <p class="field-error" id="notes-error" hidden></p>
+            </div>
+            <div id="save-error" class="save-error" role="alert" hidden></div>
+            <div class="form-footer">
+              <p>Estado inicial <span class="status">Enviado</span></p>
+              <button type="submit">Guardar postulación <span aria-hidden="true">↗</span></button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="context-panel" aria-labelledby="context-title">
+          <span class="context-mark" aria-hidden="true"></span>
+          <h2 id="context-title">Que ningún envío<br>pierda el rastro.</h2>
+          <p>Registrá la empresa, el puesto y la fecha. Así tenés un punto de partida para cada oportunidad.</p>
+          <div class="storage-note">
+            <h3>Tu espacio personal</h3>
+            <p>Las postulaciones se guardan en este navegador y siguen acá cuando volvés. Si borrás sus datos, también se borran tus registros.</p>
+          </div>
+        </aside>
+      </div>
+      <section id="save-success" class="success" role="status" aria-live="polite" aria-atomic="true" hidden>
+        <svg class="success-symbol" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><h2>Postulación guardada</h2><p id="success-detail"></p></div>
+        <a class="success-history" href="postulaciones.html">Ver mis postulaciones</a>
+        <button type="button" id="add-another" class="text-button">Agregar otra <span aria-hidden="true">→</span></button>
+      </section>
+      <footer class="page-footer">Foxhound <span>Tu búsqueda, con rumbo.</span></footer>
+    </main>
+  </body>
+</html>

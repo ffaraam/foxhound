@@ -1,0 +1,9 @@
+# Archivos locales y secretos
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Evidencias y resultados generados de las pruebas
+test-results/
+.taste-skill/inspect/

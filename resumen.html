@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#F3F0E8">
+    <meta name="description" content="Foxhound, tu espacio para seguir cada postulación laboral.">
+    <title>Resumen · Foxhound</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/foxhound-logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <script src="resumen.js" defer></script>
+  </head>
+  <body class="dashboard">
+    <a class="skip-link" href="#contenido">Ir al contenido</a>
+    <aside class="sidebar" aria-label="Foxhound">
+      <a class="brand" href="./" aria-label="Foxhound, inicio">
+        <span class="brand-mark" role="img" aria-label="Foxhound americano de perfil"></span>
+        <span>foxhound<span class="brand-dot">.</span></span>
+      </a>
+      <p class="workspace">Mi búsqueda laboral</p>
+      <nav aria-label="Navegación principal">
+        <a class="nav-link" href="./"><span aria-hidden="true">+</span> Nueva postulación</a>
+        <a class="nav-link" href="postulaciones.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Mis postulaciones</a>
+        <a class="nav-link" href="resumen.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V10h4v10M10 20V4h4v16M16 20v-7h4v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg> Resumen</a>
+      </nav>
+      <p class="sidebar-footer">Un lugar para seguir<br>tu próximo paso.</p>
+    </aside>
+
+    <main id="contenido">
+      <header class="page-header history-header">
+        <div><h1>Resumen</h1><p>Cada envío cuenta. Mirá cómo avanza tu búsqueda.</p></div>
+        <a class="button-link" href="./"><span aria-hidden="true">+</span> Nueva postulación</a>
+      </header>
+      <div id="summary-error" class="history-panel" role="alert" hidden>
+        <h2>No pudimos cargar el resumen</h2>
+        <p>No se pudieron leer las postulaciones de este navegador. Tus datos no se modificaron.</p>
+        <button id="retry-summary" type="button" class="secondary-button">Volver a intentar</button>
+      </div>
+      <div id="summary-content" hidden>
+        <section class="dashboard-metrics" aria-label="Tu búsqueda en números">
+          <dl class="metric metric-main"><dt>Total de postulaciones</dt><dd id="total-count">0</dd><span>Oportunidades que fuiste a buscar</span></dl>
+          <dl class="metric"><dt>Empresas contactadas</dt><dd id="company-count">0</dd><span>Empresas distintas en tu historial</span></dl>
+          <dl class="metric"><dt>Envíos recientes</dt><dd id="month-count">0</dd><span>En los últimos 30 días, incluido hoy</span></dl>
+        </section>
+        <div class="dashboard-charts">
+          <section class="dashboard-panel distribution-panel" aria-labelledby="breakdown-title">
+            <div class="dashboard-panel-heading"><h2 id="breakdown-title">El mapa de tu búsqueda</h2><span>Por estado</span></div>
+            <div class="distribution-body">
+              <div class="status-ring"><svg id="status-donut" viewBox="0 0 180 180" aria-hidden="true"></svg><div class="ring-caption"><strong id="active-share">0%</strong><span>en movimiento</span></div></div>
+              <dl id="status-breakdown" class="status-breakdown"></dl>
+            </div>
+            <p class="dashboard-caption">En movimiento: envíos pendientes de respuesta y procesos abiertos.</p>
+            <p id="summary-unknown" class="summary-unknown" hidden></p>
+          </section>
+          <section class="dashboard-panel activity-panel" aria-labelledby="activity-title">
+            <div class="dashboard-panel-heading"><h2 id="activity-title">Tu ritmo de envíos</h2><span>6 semanas</span></div>
+            <div id="weekly-chart" class="weekly-chart"></div>
+            <p id="activity-caption" class="dashboard-caption"></p>
+          </section>
+        </div>
+        <section class="dashboard-panel recent-panel" aria-labelledby="recent-title">
+          <div class="dashboard-panel-heading"><h2 id="recent-title">Tus últimos pasos</h2><a class="dashboard-history-link" href="postulaciones.html">Ver historial <span aria-hidden="true">→</span></a></div>
+          <ol id="recent-applications" class="recent-applications" aria-label="Últimas tres postulaciones"></ol>
+          <div id="summary-empty" class="dashboard-empty" hidden><p>Todavía no hay envíos en tu historial.</p><a class="inline-link" href="./">Agregar mi primera postulación <span aria-hidden="true">→</span></a></div>
+        </section>
+      </div>
+      <p id="summary-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+      <noscript><p>Activá JavaScript para ver el resumen de tus postulaciones.</p></noscript>
+      <p class="history-storage">Resumen de todas las postulaciones guardadas en este navegador.</p>
+      <footer class="page-footer">Foxhound <span>Tu búsqueda, con rumbo.</span></footer>
+    </main>
+  </body>
+</html>
