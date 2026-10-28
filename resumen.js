@@ -13,6 +13,8 @@
   const fullDate = new Intl.DateTimeFormat("es-AR", { day: "numeric", month: "long", year: "numeric" });
   const NS = "http://www.w3.org/2000/svg";
   let weekly = [];
+  const pdfButton = document.querySelector("#save-summary-pdf");
+  const generatedAt = document.querySelector("#pdf-generated-at");
 
   function node(tag, className, text) {
     const item = document.createElement(tag);
@@ -34,10 +36,10 @@
   }
   function shift(date, days) { const result = new Date(date); result.setDate(result.getDate() + days); return result; }
 
-  function drawActivity() {
+  function drawActivity(printWidth) {
     if (!weekly.length || content.hidden) return;
     chart.replaceChildren();
-    const width = Math.max(220, chart.clientWidth);
+    const width = typeof printWidth === "number" ? printWidth : window.matchMedia("print").matches ? 280 : Math.max(220, chart.clientWidth);
     const height = 180, left = 24, right = 8, top = 20, bottom = 30;
     const max = Math.max(0, ...weekly.map(week => week.count));
     const step = Math.max(1, Math.ceil(max / 3));
@@ -62,6 +64,7 @@
   }
 
   function render() {
+    pdfButton.disabled = true;
     content.hidden = true;
     error.hidden = true;
     breakdown.replaceChildren();
@@ -133,12 +136,26 @@
       }
       document.querySelector("#summary-empty").hidden = total !== 0;
       content.hidden = false;
+      pdfButton.disabled = false;
       drawActivity();
       announcement.textContent = `${total} postulaciones en total. ${parts.map(part => `${part.label}: ${part.count}`).join(". ")}.`;
     } catch {
       error.hidden = false;
     }
   }
+
+  function preparePrint() {
+    render();
+    generatedAt.textContent = `Generado el ${new Intl.DateTimeFormat("es-AR", { dateStyle: "long", timeStyle: "short" }).format(new Date())}. Datos guardados en este navegador.`;
+    drawActivity(280);
+  }
+  pdfButton.addEventListener("click", () => {
+    preparePrint();
+    if (content.hidden) return;
+    window.print();
+  });
+  window.addEventListener("beforeprint", preparePrint);
+  window.addEventListener("afterprint", drawActivity);
 
   document.querySelector("#retry-summary").addEventListener("click", render);
   window.addEventListener("pageshow", render);

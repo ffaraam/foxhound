@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="resumen.js" defer></script>
   </head>
-  <body class="dashboard">
+  <body class="dashboard summary-page">
     <a class="skip-link" href="#contenido">Ir al contenido</a>
     <aside class="sidebar" aria-label="Foxhound">
       <a class="brand" href="./" aria-label="Foxhound, inicio">
@@ -32,8 +32,10 @@
     <main id="contenido">
       <header class="page-header history-header">
         <div><h1>Resumen</h1><p>Cada envío cuenta. Mirá cómo avanza tu búsqueda.</p></div>
-        <a class="button-link" href="./"><span aria-hidden="true">+</span> Nueva postulación</a>
+        <div class="summary-actions"><button id="save-summary-pdf" class="secondary-button" type="button" disabled aria-describedby="pdf-help">Guardar PDF</button><a class="button-link" href="./"><span aria-hidden="true">+</span> Nueva postulación</a></div>
       </header>
+      <p id="pdf-help" class="pdf-help">Para conservar una copia, elegí «Guardar como PDF» en el diálogo de impresión.</p>
+      <div class="print-heading"><strong>foxhound.</strong><p>Resumen de postulaciones</p><p id="pdf-generated-at"></p></div>
       <div id="summary-error" class="history-panel" role="alert" hidden>
         <h2>No pudimos cargar el resumen</h2>
         <p>No se pudieron leer las postulaciones de este navegador. Tus datos no se modificaron.</p>

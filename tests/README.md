@@ -15,3 +15,5 @@ Usa un perfil de navegador temporal y separado. El flujo de aceptación escribe 
 Verifica los diez criterios solicitados (HU1 a HU5 y generales), además de campos vacíos y fecha futura. Captura excepciones JavaScript, `console.error` y respuestas HTTP fallidas de recursos locales. Los errores de recursos externos se registran por separado. HU4 cubre la creación, visualización, edición y persistencia de la nota tras recarga.
 
 `node tests/calendar.mjs` verifica el calendario personalizado: teclado, fechas futuras, Escape, febrero bisiesto, guardado y adaptación a 320/390/1440 px.
+
+`node tests/resumen-pdf.mjs` verifica el botón Guardar PDF, fecha de generación, resumen vacío, actualización de datos, bloqueo ante errores y adaptación a tres anchos. Genera un PDF A4 real con Chrome en `test-results/resumen-pdf/`. El diálogo nativo de impresión requiere elegir manualmente «Guardar como PDF».

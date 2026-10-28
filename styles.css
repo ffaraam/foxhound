@@ -391,3 +391,43 @@ textarea[aria-invalid="true"] { border-color: var(--negative); }
 .calendar-footer { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 12px; }
 .calendar-footer > span { color: var(--muted); font-size: 12px; }
 #calendar-today { min-height: 40px; padding: 8px 12px; background: var(--ground); color: var(--brand); font-size: 13px; }
+
+/* El informe conserva los gráficos vectoriales y los datos del resumen. */
+.summary-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.pdf-help { color: var(--muted); font-size: 14px; margin: -12px 0 28px; }
+.print-heading { display: none; }
+@page { size: A4 portrait; margin: 14mm; }
+@media print {
+  .summary-page { display: block; background: #fff; color: #29251F; font-size: 10pt; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .summary-page .sidebar, .summary-page .skip-link, .summary-page .page-header,
+  .summary-page .pdf-help, .summary-page .page-footer, .summary-page .history-storage,
+  .summary-page .dashboard-history-link, .summary-page .dashboard-empty a,
+  .summary-page #retry-summary, .summary-page .sr-only { display: none !important; }
+  .summary-page main { width: 100%; max-width: none; margin: 0; padding: 0; }
+  .print-heading { display: block; margin-bottom: 7mm; }
+  .print-heading strong { color: #8E643E; font-size: 24pt; }
+  .print-heading p { margin: 2mm 0; }
+  #pdf-generated-at { font-size: 9pt; }
+  .summary-page .dashboard-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; margin-bottom: 7mm; }
+  .summary-page .metric { padding: 4mm; }
+  .summary-page .metric dd { font-size: 30pt; }
+  .summary-page .dashboard-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .summary-page .dashboard-panel { padding: 5mm; margin-bottom: 5mm; break-inside: avoid; }
+  .summary-page .dashboard-panel-heading { flex-wrap: wrap; gap: 2mm; }
+  .summary-page h2 { font-size: 13pt; }
+  .summary-page .distribution-body { display: flex; flex-direction: column; gap: 3mm; }
+  .summary-page .status-ring { width: 140px; height: 140px; margin: auto; }
+  .summary-page .status-breakdown { width: 100%; }
+  .summary-page .recent-row { break-inside: avoid; }
+  .summary-page .recent-identity { min-width: 0; overflow-wrap: anywhere; }
+  .summary-page .recent-company, .summary-page .recent-role { white-space: normal; overflow: visible; text-overflow: clip; }
+  .summary-page .dashboard-caption { font-size: 9pt; }
+}
+@media print {
+  .summary-page .distribution-body { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 3mm; min-height: 140px; }
+  .summary-page .status-ring { width: 110px; height: 110px; }
+  .summary-page .ring-caption strong { font-size: 20pt; }
+  .summary-page .ring-caption span { font-size: 7pt; }
+  .summary-page .breakdown-row { padding: 2mm 0; gap: 2mm; }
+  .summary-page .breakdown-row dt { font-size: 9pt; gap: 2mm; }
+}
