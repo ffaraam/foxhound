@@ -431,3 +431,37 @@ textarea[aria-invalid="true"] { border-color: var(--negative); }
   .summary-page .breakdown-row { padding: 2mm 0; gap: 2mm; }
   .summary-page .breakdown-row dt { font-size: 9pt; gap: 2mm; }
 }
+
+/* Carbón cálido y tonos de cuero: la misma identidad, con menos luminancia. */
+:root { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #1b1c19;
+  --surface: #242621;
+  --text: #f3f0e8;
+  --muted: #b4b3a8;
+  --brand: #c7986c;
+  --green: #a2c65a;
+  --active: #34372e;
+  --border: #3b3e34;
+  --control: #74786a;
+  --negative: #f09d90;
+  --positive: #bfdb91;
+  --positive-bg: #303d25;
+}
+[data-theme="dark"] .dashboard { --state-sent: #858977; --state-rejected: #b9b6ae; }
+[data-theme="dark"] .metric-main { background: #303429; }
+[data-theme="dark"] .date-calendar::backdrop { background: rgb(0 0 0 / 45%); }
+.theme-toggle { display: flex; align-items: center; gap: 10px; background: transparent; color: var(--muted); padding: 10px 12px; margin-top: 32px; text-align: left; font-size: 13px; }
+.theme-toggle:hover { color: var(--text); background: var(--active); opacity: 1; }
+.theme-toggle svg { width: 18px; height: 18px; flex-shrink: 0; }
+.theme-toggle span { margin: 0; }
+@media (min-width: 1101px) { .sidebar-footer { margin-top: 16px; } .theme-toggle { margin-top: auto; } }
+@media (min-width: 641px) and (max-width: 1100px) { .theme-toggle { margin: 0; } .sidebar { flex-wrap: wrap; } }
+@media (max-width: 640px) { .theme-toggle { position: absolute; top: 22px; right: 16px; margin: 0; min-height: 40px; padding: 8px 12px; } .theme-toggle svg { display: none; } }
+@media print {
+  :root[data-theme="dark"] { color-scheme: light; --ground: #f3f0e8; --surface: #fdfcf9; --text: #29251f; --muted: #686157; --brand: #8e643e; --active: #e6e2d9; --border: #e9e4da; --control: #a69e91; --positive: #385024; --positive-bg: #e6edd9; }
+  [data-theme="dark"] .dashboard { --state-sent: #d4c6b5; --state-rejected: #6c6a64; }
+  [data-theme="dark"] .metric-main { background: #ebe5d9; }
+  .theme-toggle { display: none; }
+}

@@ -10,6 +10,7 @@ Rastreador personal de postulaciones laborales desarrollado con **HTML, CSS y Ja
 - **Estados:** Enviado, En proceso, Rechazado y Oferta. Los cambios se guardan automáticamente y se confirman en la fila.
 - **Notas editables:** hasta 2000 caracteres, con saltos de línea. Se pueden agregar o editar desde el historial, guardar o cancelar. Guardar una nota vacía la elimina. Si el guardado falla, el borrador permanece disponible.
 - **Guardar resumen en PDF:** desde Resumen → Guardar PDF, elegir «Guardar como PDF» en el diálogo del navegador. Incluye métricas, gráficos, últimas postulaciones y fecha de generación, con diseño A4. La copia conserva los datos del momento; no es un respaldo del historial completo.
+- **Tema visual:** selector de modo claro/oscuro en las tres pantallas. La elección se conserva en este navegador; los PDF mantienen el diseño claro.
 - **Resumen:** total de postulaciones, empresas contactadas y envíos de los últimos 30 días; distribución por estado, actividad de las últimas seis semanas y las tres postulaciones más recientes.
 - **Diseño responsive:** navegación y formularios adaptados a escritorio, tablet y celular.
 
